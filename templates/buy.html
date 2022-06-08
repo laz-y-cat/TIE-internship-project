@@ -1,0 +1,103 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta content="width=device-width, initial-scale=1.0" name="viewport">
+
+  <title>{% block title %}
+ LeafNow
+  {% endblock title %}</title>
+  <meta content="" name="description">
+  <meta content="" name="keywords">
+
+{% block style %}
+{% endblock style %}
+  <link href="https://fonts.googleapis.com/css?family=Open+Sans:300,300i,400,400i,700,700i|Raleway:300,400,500,700,800" rel="stylesheet">
+
+  <!-- Vendor CSS Files -->
+  <link href="static/assets/vendor/bootstrap/css/bootstrap.min.css" rel="stylesheet">
+  <link href="static/assets/vendor/venobox/venobox.css" rel="stylesheet">
+  <link href="static/assets/vendor/font-awesome/css/font-awesome.min.css" rel="stylesheet">
+  <link href="static/assets/vendor/owl.carousel/assets/owl.carousel.min.css" rel="stylesheet">
+  <link href="static/assets/vendor/aos/aos.css" rel="stylesheet">
+
+  <!-- Template Main CSS File -->
+  <link href="static/assets/css/style.css" rel="stylesheet">
+
+
+</head>
+
+<body>
+
+  <!-- ======= Header ======= -->
+  <header id="header">
+    <div class="container">
+      <div id="logo" class="pull-left">
+        <a href="/" class="scrollto"></a>
+      </div>
+      <nav id="nav-menu-container">
+        <ul class="nav-menu">
+          <li class="buy-tickets" ><a href="/">Home</a></li>
+
+    {% if current_user.is_authenticated  %}
+          <li class="buy-tickets"><a href="">Welcome {{current_user.username}}</a></li>
+            <li class="buy-tickets"><a href="/logout">Logout</a></li>
+          {% else %}
+          <li class="buy-tickets"><a href="/signup">Signin</a></li>
+          {% endif %}
+        </ul>
+      </nav>
+    </div>
+  </header><!-- End Header -->
+  <br><br><br><br>
+
+
+{% block body %}
+
+ <h3 class="text-center"><span>Buy Products</span> </h3>
+
+{% with messages=get_flashed_messages(with_categories=true) %}
+{% if messages %}
+{% for category, message in messages %}
+
+<div class="alert alert-{{category}} alert-dismissible fade show" role="alert">
+    {{message}}
+
+
+</div>
+  {% endfor %}
+  {% endif %}
+  {% endwith %}
+<br>
+
+<div class="container mt-3">
+<div class="row">
+
+
+  {% for p in query %}
+  <div class="col-sm-4">
+    <div class="card">
+      <div class="card-body">
+        <b><h5 class="card-title">{{p.productname}}</h5></b>
+        <b>Price : {{p.price}}</b>
+        <hr>
+        <p class="card-text">{{p.productdesc}}</p>
+
+
+        <p>Owner : {{p.username}}</p>
+        <p>Email : {{p.email}}</p>
+
+
+              <a href="/delete/{{p.pid}}" class="btn btn-success ">Purchase</a>
+
+            </tr>
+
+      </div>
+    </div>
+  </div>
+  {% endfor %}
+</div>
+
+
+</div>
+{% endblock body %}
